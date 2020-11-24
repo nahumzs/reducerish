@@ -1,5 +1,6 @@
+import React from "react";
+
 // more info https://github.com/facebook/react/issues/15156
-import React, { Dispatch } from "react";
 
 export const contextState = React.createContext(null);
 export const contextDispatch = React.createContext(null);
@@ -89,7 +90,7 @@ export const useReducerishWithContext = () => {
 
 type reducerish = [
   state: unknown,
-  dispatch: (string, unknown) => unknown,
+  dispatch: (string, unknown?) => unknown,
   types: actionType
 ];
 

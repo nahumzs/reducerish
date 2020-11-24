@@ -21,7 +21,7 @@
     "esModuleInterop": true,
 
     // Output to single concatenated file
-    "outDir": "../lib",
+    "outDir": "../app/src/lib",
 
     "declaration": true
   },
