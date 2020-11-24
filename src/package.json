@@ -1,0 +1,38 @@
+{
+  "name": "reducerish",
+  "version": "1.0.0",
+  "description": "Reducerish is a wrap on top of React.useReducer which make it easier to use",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ../lib && tsc -p .",
+    "watch": "rimraf ../lib && tsc -p . -w",
+    "copy:files": "copyfiles README.md package.json ../lib && echo 'Files copied'",
+    "postbuild": "yarn copy:files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nahumzs/reducerish.git"
+  },
+  "keywords": [
+    "React",
+    "Context",
+    "reducer",
+    "useReducer"
+  ],
+  "author": "nahum_zsilva",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nahumzs/reducerish/issues"
+  },
+  "homepage": "https://github.com/nahumzs/reducerish#readme",
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2"
+  }
+}
