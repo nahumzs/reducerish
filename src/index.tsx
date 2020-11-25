@@ -8,7 +8,7 @@ export const contextDispatch = React.createContext(null);
 type actionType = { [key: string]: unknown };
 interface ProviderInterface {
   actions: actionType;
-  children: React.ReactNode;
+  children: any;
   displayName: string;
   hasLogger: boolean;
   initialState: unknown;
@@ -94,13 +94,20 @@ type reducerish = [
   types: actionType
 ];
 
-export const useReducerish = ({
-  actions,
-  hasLogger,
-  initialState,
-  initializer = undefined,
-}: Partial<ProviderInterface>) => {
+export const useReducerish = (
+  actions: actionType,
+  initialState: unknown,
+  initializer: () => unknown = undefined,
+  hasLogger: boolean = false
+) => {
+  if (!actions) {
+    throw new Error(
+      "Actions are required for useReducerish, is an object with their actions as their properties"
+    );
+  }
+
   const types = React.useMemo(() => getTypes(actions), [actions]);
+
   const reducerMemo = React.useMemo(() => {
     return reducer(actions || {}, hasLogger);
   }, [actions, hasLogger]);
@@ -108,7 +115,8 @@ export const useReducerish = ({
   const [state, dispatch] = React.useReducer(
     reducerMemo,
     initialState,
-    initializer
+    // if initializer is not a function just skipped by passing undefined so hasLogger can work
+    typeof initializer === "function" ? initializer : undefined
   );
 
   function dispatchCallback(...args) {
