@@ -43,7 +43,6 @@ useReducerish(actions, {...})
   hasLogger: `import { Provider, useReducerish } from "reducerish";
 
 // when using it with useReducerish
-// if you are not using an initializer (lazy loading) you can use it as:
 // signature (actions, initialState, initializer, hasLogger)
 useReducerish(actions, initialState, null, true)
 

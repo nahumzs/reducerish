@@ -30,13 +30,13 @@ const styles = {
   }),
   Code: styled.div(() => {
     return css`
-      width: 75%;
+      width: 60%;
       flex-shrink: 0;
     `;
   }),
   Render: styled.div(() => {
     return css`
-      width: 25%;
+      width: 40%;
       padding: 32px;
     `;
   }),

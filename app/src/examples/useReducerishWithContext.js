@@ -99,6 +99,7 @@ const actions = {
   },
 };
 
+// new Set: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 const initialState = new Set(["Cat", "Dog", "Bear"]);
 
 export default function App() {
@@ -126,18 +127,18 @@ function List() {
   };
 
   return (
-    <ul>
+    <>
       {Array.from(state).map((item) => (
-        <li>
+        <>
           {item}
           <Button onClick={handleDelete(item)}>
-            <Times />
+            <Delete />
           </Button>
-        </li>
+        </>
       ))}
-    </ul>
+    </>
   );
-}  
+}
 `;
   return <Story render={<App />} code={code} />;
 };
