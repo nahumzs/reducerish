@@ -1,6 +1,7 @@
 import UseReducerish from "./examples/useReducerish";
 import UseReducerishWithContext from "./examples/useReducerishWithContext";
 import AsyncUseReducerish from "./examples/asyncUseReducerish";
+import UseReducerishInitialStateWithProps from "./examples/useReducerishInitialStateWithProps";
 import styled, { css, createGlobalStyle } from "styled-components";
 import Snippets from "./examples/Snippets";
 import Link from "./Link";
@@ -16,6 +17,7 @@ export default function App() {
   return (
     <>
       <Global />
+      <UseReducerishInitialStateWithProps />
       <styles.Content>
         <h1>{r}</h1>
         <p>
@@ -122,12 +124,16 @@ export default function App() {
             <styles.FAQQ>Why did I coded this?</styles.FAQQ>
             <styles.FAQA>
               As I described in the beginning of the page one of the main reason
-              was to make <code>{ur}</code> more approachable to any developer
+              was to make <code>{rur}</code> more approachable to any developer
               independently from their expertise level. <br />
               But also, I did it because I'm a library author and having the
               power of reducers without introducing a peer-dependency in your
               library, is quite nice and also mitigate some of the hassles for
-              your consumers when consuming your Components 😸.
+              your consumers when consuming your Components 😸. And lastly and
+              more important in advances cases is that {r} provides a way to
+              implemented <strong>Inversion of control</strong> in a simple way,
+              without forcing you to export a reducer, neither to learn
+              convolute approaches. <strong>wip ("example to be added")</strong>
             </styles.FAQA>
           </styles.FAQItem>
           <styles.FAQItem>
@@ -230,6 +236,18 @@ export default function App() {
                   </p>
                 </li>
                 <li>
+                  <p>
+                    Inversion of Control:
+                    <Link src="https://en.wikipedia.org/wiki/Inversion_of_control">
+                      Inversion of control - Wikipedia
+                    </Link>{" "}
+                    and{" "}
+                    <Link src="https://kentcdodds.com/blog/inversion-of-control">
+                      Inversion of control - Kent C. Dodds.
+                    </Link>
+                  </p>
+                </li>
+                <li>
                   Some information about useReducer, dispatch and context
                   <Link src="https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down">
                     How to avoid passing callbacks down?
@@ -318,7 +336,8 @@ const styles = {
     return css`
       padding: 16px;
       font-size: 1rem;
-      max-width: 75vw;
+      width: 75vw;
+      max-width: 1024px;
     `;
   }),
   FAQList: styled.ul(() => {

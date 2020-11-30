@@ -58,11 +58,11 @@ export default function App() {
 
   const [state, dispatch] = useReducerish({ up, down }, 0);
   return (
-    <div className="App">
+    <>
       <button onClick={() => dispatch("up")}>+</button>
       <button onClick={() => dispatch("down")}>-</button>
       {state}
-    </div>
+    </>
   );
 }
   `;
