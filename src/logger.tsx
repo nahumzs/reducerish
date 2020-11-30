@@ -1,9 +1,12 @@
 /**
  * Summary: Prints the current processing action via the dev console, with it's previous state and the next state after passing inside the reducer.
  *
- * @param {{[key]:(state, payload)=> nextState}}   actions  An object with {key: value} format that define an action of an state
+ * @param {{unknown}}           prevState           The current state of the store
+ * @param {{unknown}}           nextState           The next state after being pass through the reducer
+ * @param {{ type, payload }}   action              The actions that has being dispatched by the consumer
+ * @param {boolean}             isFromInterceptor   Let the consoler knowns if the actions is an original or has been override by the interceptors
  *
- * @return {{[key]: type}                          types    An object with all the names of the types inside
+ * @return {{unknown}}          The next state
  */
 
 export default function logger(
