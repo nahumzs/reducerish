@@ -5,10 +5,10 @@ export default function App({ snippet }) {
 }
 
 const snippets = {
-  0: `useReducerish(actions: {[name]:function}, initialState: unknown, lazyLoading:function, hasLogger:boolean)
+  0: `useSeducer(actions: {[name]:function}, initialState: unknown, lazyLoading:function, hasLogger:boolean)
 }
 `,
-  1: `import { useReducerish } from "reducerish";
+  1: `import { useSeducer } from "reducerish";
 
   const actions = {
     add() {},
@@ -27,7 +27,7 @@ const snippets = {
   function get() {},
   function const initialState = {...};
 
-  useReducerish({ add, delete, update, search, get }, initialState)
+  useSeducer({ add, delete, update, search, get }, initialState)
 `,
   2: `// actions.js
 export function add() {},
@@ -38,23 +38,23 @@ export function get() {},
 
 // App.js
 import * as actions from "./actions.js"
-useReducerish(actions, {...})
+useSeducer(actions, {...})
 `,
-  hasLogger: `import { Provider, useReducerish } from "reducerish";
+  hasLogger: `import { Provider, useSeducer } from "reducerish";
 
-// when using it with useReducerish
+// when using it with useSeducer
 // signature (actions, initialState, initializer, hasLogger)
-useReducerish(actions, initialState, null, true)
+useSeducer(actions, initialState, null, true)
 
 
-// when using it with useReducerishWithContext
+// when using it with useSeducerWithContext
 <Provider actions={...} initialState={...} hasLogger>
   <App />
 <Provider>
 `,
   types: `// --------
-// useReducerish provides a third value (types when destructuring the array
-const [state, dispatch, types] = useReducerish({ up, down }, 0);
+// useSeducer provides a third value (types when destructuring the array
+const [state, dispatch, types] = useSeducer({ up, down }, 0);
 // so now having the types you prevent types errors by doing:
 dispatch(types.up);
 dispatch(types.down);
@@ -64,8 +64,8 @@ dispatch(types.down);
 function add(state, payload){ ... }
 function remove(state, payload){ ... }
 
-// like useReducerish useReducerishWithContext follow the same pattern
-const [state, dispatch, types] = useReducerishWithContext();
+// like useSeducer useSeducerWithContext follow the same pattern
+const [state, dispatch, types] = useSeducerWithContext();
 
 dispatch(types.add, value);
 dispatch(types.remove, value);
@@ -79,7 +79,7 @@ export const remove(actions, payload) {...}
 
 // App.js
 import * as actions from "./actions";
-const [state, dispatch, types] = useReducerish(actions, initialState);
+const [state, dispatch, types] = useSeducer(actions, initialState);
 
 dispatch(types.search, value);
 dispatch(types.sort, value);

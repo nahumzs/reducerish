@@ -1,4 +1,4 @@
-import { useReducerish } from "../lib";
+import { useSeducer } from "../lib";
 import Button from "@paprika/button";
 import Story from "../Story";
 
@@ -32,7 +32,7 @@ async function asyncFakeFetch({ dispatch, types, hasError }) {
 const initialState = { status: null, data: null };
 
 export default function App() {
-  const [state, dispatch, types] = useReducerish(
+  const [state, dispatch, types] = useSeducer(
     actions,
     initialState,
     null,
@@ -89,7 +89,7 @@ export default function App() {
 }
 
 App.Story = () => {
-  const code = `import { useReducerish } from "reducerish";
+  const code = `import { useSeducer } from "reducerish";
 
 // in your code, you could move these actions into their own file.
 const actions = {
@@ -122,7 +122,7 @@ async function asyncFakeFetch({ dispatch, types, hasError }) {
 const initialState = { status: null, data: null };
 
 export default function App() {
-  const [state, dispatch, types] = useReducerish(
+  const [state, dispatch, types] = useSeducer(
     actions,
     initialState,
     null,

@@ -2,6 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/seducer",
   "dependencies": {
     "@paprika/button": "^1.0.1",
     "@paprika/icon": "^1.0.0",

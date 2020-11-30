@@ -1,7 +1,7 @@
-import { useReducerishWithContext, Provider } from "../lib";
+import { useSeducerWithContext, Provider } from "../lib";
 
 function MyComponent() {
-  const [state] = useReducerishWithContext();
+  const [state] = useSeducerWithContext();
   console.log(state);
 
   return <span>::: {state}</span>;

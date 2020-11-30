@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider, useReducerishWithContext } from "../lib";
+import { Provider, useSeducerWithContext } from "../lib";
 
 function up(state) {
   return state.counter + 1;
@@ -10,7 +10,7 @@ function down(state) {
 }
 
 function Counter() {
-  const [state, dispatch] = useReducerishWithContext();
+  const [state, dispatch] = useSeducerWithContext();
 
   return (
     <>

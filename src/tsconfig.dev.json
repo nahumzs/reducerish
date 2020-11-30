@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    // No module system, concatenated file
-    "module": "none",
+    "module": "ES6",
 
     // Set React as the JSX factory
     "jsx": "react",

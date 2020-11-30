@@ -12,23 +12,22 @@ type reducerish = [
   types: actionTypeInterface
 ];
 
-export const useReducerish = (
+export const useSeducer = (
   actions: actionTypeInterface,
   initialState: unknown,
   initializer: () => unknown = undefined,
   hasLogger: boolean = false,
-  interceptors: any = null
+  interceptors = {}
 ) => {
   if (!actions) {
     throw new Error(
-      "Actions are required for useReducerish, is an object with their actions as their properties"
+      "Actions are required for useSeducer, is an object with their actions as their properties"
     );
   }
 
-  const types = React.useMemo(
-    () => getTypes({ ...({} ?? interceptors), ...actions }),
-    [actions]
-  );
+  const types = React.useMemo(() => getTypes({ ...interceptors, ...actions }), [
+    actions,
+  ]);
 
   const reducerMemo = React.useMemo(() => {
     return reducer(actions || {}, hasLogger, interceptors);

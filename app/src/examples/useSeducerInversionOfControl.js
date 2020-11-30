@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import Button from "@paprika/button";
-import { useReducerish } from "../lib";
+import { useSeducer } from "../lib";
 import Confetti from "react-dom-confetti";
 import Story from "../Story";
-import { reduceRight, shift } from "core-js/fn/array";
-import { useReducer } from "react";
 
 const ButtonGroup = styled.div`
   & button {
@@ -12,18 +10,24 @@ const ButtonGroup = styled.div`
   }
 `;
 
-function useMyReusableCounter() {
-  function up(state) {
-    return { ...state, sum: state.sum + 1 };
-  }
+function up(state) {
+  return { ...state, sum: state.sum + 1 };
+}
 
-  function down(state) {
-    return { ...state, sum: state.sum - 1 };
-  }
+function down(state) {
+  return { ...state, sum: state.sum - 1 };
+}
 
-  const [state, dispatch, types] = useReducerish({ up, down }, { sum: 0 });
+function useMyReusableCounter(interceptors = {}) {
+  const [state, dispatch, types] = useSeducer(
+    { up, down },
+    { sum: 0 },
+    null,
+    false,
+    interceptors
+  );
 
-  return [state, dispatch, types];
+  return [state, dispatch, types, interceptors];
 }
 
 function MyReusableCounter({ onUp, onDown, counter }) {
@@ -72,19 +76,23 @@ export default function App() {
   const [state, dispatch, types] = useMyReusableCounter({ up, duplicate });
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <Confetti active={state.__hasConfetti} />
-      {state.__hasConfetti ? "Wait for the confetti 🎉! " : null}
+      {state.__hasConfetti ? (
+        <div style={{ position: "absolute", left: "100px", top: "10px" }}>
+          Wait for the confetti 🎉!
+        </div>
+      ) : null}
       <MyReusableCounter
         onUp={() => dispatch(types.up)}
         onDown={() => dispatch(types.down)}
         counter={state.sum}
       />
-      {/********************************** FIX THE TYPES!!!!! while spreding */}
-      {/********************************** FIX THE TYPES!!!!! while spreding */}
-      {/********************************** FIX THE TYPES!!!!! while spreding */}
-      {/********************************** FIX THE TYPES!!!!! while spreding */}
-      <Button onClick={() => dispatch("duplicate")}>duplicate</Button>
-    </>
+      {/********************************** FIX THE TYPES!!!!! while spreading */}
+      {/********************************** FIX THE TYPES!!!!! while spreading */}
+      {/********************************** FIX THE TYPES!!!!! while spreading */}
+      {/********************************** FIX THE TYPES!!!!! while spreading */}
+      <Button onClick={() => dispatch(types.duplicate)}>duplicate</Button>
+    </div>
   );
 }

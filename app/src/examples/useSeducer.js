@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Button from "@paprika/button";
-import { useReducerish } from "../lib";
+import { useSeducer } from "../lib";
 import Story from "../Story";
 
 const ButtonGroup = styled.div`
@@ -18,7 +18,7 @@ export default function App() {
     return state - 1;
   }
 
-  const [state, dispatch] = useReducerish({ up, down }, 0, null, true);
+  const [state, dispatch] = useSeducer({ up, down }, 0, null, true);
 
   return (
     <div
@@ -45,7 +45,7 @@ export default function App() {
 }
 
 App.Story = () => {
-  const code = `import { useReducerish } from "reducerish";
+  const code = `import { useSeducer } from "reducerish";
 
 export default function App() {
   function up(state) {
@@ -56,7 +56,7 @@ export default function App() {
     return state - 1;
   }
 
-  const [state, dispatch] = useReducerish({ up, down }, 0);
+  const [state, dispatch] = useSeducer({ up, down }, 0);
   return (
     <>
       <button onClick={() => dispatch("up")}>+</button>

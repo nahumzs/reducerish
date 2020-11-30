@@ -1,2 +1,2 @@
-export { Provider, useReducerishWithContext } from "./useReducerishWithContext";
-export { useReducerish } from "./useReducerish";
+export { Provider, useSeducerWithContext } from "./useSeducerWithContext";
+export { useSeducer } from "./useSeducer";

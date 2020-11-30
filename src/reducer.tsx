@@ -25,7 +25,7 @@ export const reducer = (actions, hasLogger, interceptors = {}) => (
   const isAValidAction =
     "type" in action &&
     (([action.type] as any) in actions ||
-      ([action.type] as any) in interceptors);
+      (interceptors && ([action.type] as any) in interceptors));
 
   if (isAValidAction) {
     const nextState = () => actions[action.type](state, action.payload);
@@ -50,7 +50,7 @@ export const reducer = (actions, hasLogger, interceptors = {}) => (
   }
 
   throw new Error(
-    `${action.type} lacks of an action implementation, did you forget to add: 
+    `The type "${action.type}" lacks of an action implementation, did you forget to add it: 
 ${action.type}(state, payload) { 
   return state;
 } 

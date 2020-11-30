@@ -2,11 +2,11 @@ import { useRef } from "react";
 import Button from "@paprika/button";
 import Input from "@paprika/input";
 import Times from "@paprika/icon/lib/Times";
-import { Provider, useReducerishWithContext } from "../lib";
+import { Provider, useSeducerWithContext } from "../lib";
 import Story from "../Story";
 
 function Add() {
-  const [, dispatch] = useReducerishWithContext();
+  const [, dispatch] = useSeducerWithContext();
   const ref = useRef(null);
   return (
     <form
@@ -24,7 +24,7 @@ function Add() {
 }
 
 function List() {
-  const [state, dispatch] = useReducerishWithContext();
+  const [state, dispatch] = useSeducerWithContext();
   const handleDelete = (item) => () => {
     dispatch("remove", item);
   };
@@ -84,7 +84,7 @@ export default function App() {
 }
 
 App.Story = () => {
-  const code = `import { Provider, useReducerishWithContext } from "reducerish";
+  const code = `import { Provider, useSeducerWithContext } from "reducerish";
 
 const actions = {
   add(state, payload) {
@@ -112,7 +112,7 @@ export default function App() {
 }
 
 function Add() {
-  const [, dispatch] = useReducerishWithContext();
+  const [, dispatch] = useSeducerWithContext();
   return (
     <form onSubmit={() => dispatch("add", ref.current.value)}>
       <Input ref={ref} defaultValue="" placeholder="add an animal [enter]" />
@@ -121,7 +121,7 @@ function Add() {
 }
 
 function List() {
-  const [state, dispatch] = useReducerishWithContext();
+  const [state, dispatch] = useSeducerWithContext();
   const handleDelete = (item) => () => {
     dispatch("remove", item);
   };

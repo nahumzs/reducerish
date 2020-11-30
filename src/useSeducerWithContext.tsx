@@ -5,7 +5,7 @@ import getTypes from "./getTypes";
 export const contextState = React.createContext(null);
 export const contextDispatch = React.createContext(null);
 
-export const useReducerishWithContext = () => {
+export const useSeducerWithContext = () => {
   const [dispatch, types] = useDispatch();
   return [useState(), dispatch, types];
 };
@@ -17,7 +17,7 @@ export function Provider({
   hasLogger = false,
   initialState,
   initializer = undefined,
-  interceptors = null,
+  interceptors = {},
 }: ProviderInterface) {
   if (typeof initializer !== "undefined" && typeof initializer !== "function")
     throw new Error("the initializer prop must be a function");
@@ -32,10 +32,9 @@ export function Provider({
     initializer
   );
 
-  const types = React.useMemo(
-    () => getTypes({ ...({} ?? interceptors), ...actions }),
-    [actions]
-  );
+  const types = React.useMemo(() => getTypes({ ...interceptors, ...actions }), [
+    actions,
+  ]);
 
   setContextDisplayName(contextState, displayName);
 

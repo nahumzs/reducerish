@@ -1,14 +1,14 @@
-import UseReducerish from "./examples/useReducerish";
-import UseReducerishWithContext from "./examples/useReducerishWithContext";
-import AsyncUseReducerish from "./examples/asyncUseReducerish";
-import UseReducerishInitialStateWithProps from "./examples/useReducerishInitialStateWithProps";
+import UseReducerish from "./examples/useSeducer";
+import UseReducerishWithContext from "./examples/useSeducerWithContext";
+import AsyncUseReducerish from "./examples/asyncUseSeducer";
+import UseReducerishInversionOfControl from "./examples/useSeducerInversionOfControl";
 import styled, { css, createGlobalStyle } from "styled-components";
 import Snippets from "./examples/Snippets";
 import Link from "./Link";
 
-const r = "Reducerish";
-const ur = "useReducerish";
-const urw = "useReducerishWithContext";
+const r = "Seducer";
+const ur = "useSeducer";
+const urw = "useSeducerWithContext";
 const rur = "React.useReducer";
 const rus = "React.useState";
 const rc = "React.createContext";
@@ -17,7 +17,6 @@ export default function App() {
   return (
     <>
       <Global />
-      <UseReducerishInitialStateWithProps />
       <styles.Content>
         <h1>{r}</h1>
         <p>
@@ -28,96 +27,99 @@ export default function App() {
         <p>Personally, I think is mostly by some of the following reasons:</p>
         <ul>
           <li>
-            <p>
-              Reducers are not the bread and butter of all react-developers
-              unlike
-              <code>{rus}</code>. This make it a harder pattern to memorize.
-            </p>
+            Reducers are not the bread and butter of all react-developers unlike
+            <code>{rus}</code>. This make it a harder pattern to memorize.
           </li>
           <li>
-            <p>
-              Apart from simple examples <code>{rur}</code> requires some
-              boilerplate to make it functional.
-            </p>
+            Apart from simple examples <code>{rur}</code> requires some
+            boilerplate to make it functional.
           </li>
           <li>
-            <p>
-              To make it consumable across different components you need to pair
-              it with the <code>{rc}</code> and you will need more boilerplate
-              to use it.
-            </p>
+            To make it consumable across different components you need to pair
+            it with the <code>{rc}</code> and you will need more boilerplate to
+            use it.
           </li>
           <li>
-            <p>
-              And because all above, our beloved
-              <code>{rus}</code> is picked first than <code>{rur}</code> each
-              time
-            </p>
+            And because all above, our beloved
+            <code>{rus}</code> is picked first than <code>{rur}</code> each time
           </li>
         </ul>
-
         <p>
-          To mitigate some of these reasons, I created <code>{r}</code> which is
-          a simple wrapper on top of <code>{rur}</code>, making it easier to use
-          with a more friendly approach.
+          To mitigate some of these reasons, I created <code>{r}</code> (simple
+          reducer) which is a simple wrapper on top of <code>{rur}</code>,
+          making it easier to use and with a more friendly approach.
         </p>
         <p>
           <code>{r}</code> provides two hooks that you can consume{" "}
-          <code>{ur}</code> and <code>{urw}</code>
+          <code>{ur}</code> and <code>{urw}</code>.
         </p>
         <p>
           Ok, showtime, these are a basic example for
           <code>{ur}</code> and a more elaborated one for <code>{urw}</code>.
         </p>
         <p>
-          This is a simple example for <code>{ur}</code>:
+          <strong>{ur}</strong>:
         </p>
         <UseReducerish.Story />
         <p>
-          And now using <code>{urw}</code>:
+          <strong>{urw}</strong>:
         </p>
         <UseReducerishWithContext.Story />
         <h2>DEV-UX</h2>
-        <h3>hasLogger</h3>
         <p>
           Using <code>{r}</code> comes with some perks from the developer
-          experience side of things. You can turn on a Logger while using{" "}
-          <code>{ur}</code> or <code>{urw}</code> and see the previous and next
-          state each time an actions is executed.
+          experience side of things. As example includes a Logger, types,
+          allowed you to customize the displayName of the reducer and finally
+          also allow you to make use of "inversion of control" with minimal
+          effort.
         </p>
-        <p>How to enable it:</p>
+        <h3>hasLogger</h3>
+        <p>
+          When enable on <code>{ur}</code> or <code>{urw}</code> will print on
+          the <em>dev console</em> their previous and next state each time an
+          actions is executed, providing the consumer with a nicer picture of
+          what it's happening with their state.
+        </p>
         <Snippets snippet="hasLogger" />
         <p>this is what you can expect to see in you dev console:</p>
         <img src="./logger.gif" alt="Logger" width="100%" />
         <h3>Types</h3>
         <p>
-          In the previous examples you saw me using explicitly typing the name
-          of the action in order to dispatch it <code>dispatch("up")</code> or{" "}
+          In previous examples you saw me explicitly typing the name of the
+          action in order to dispatch it <code>dispatch("up")</code> or{" "}
           <code>dispatch("add", value)</code> this is fine but prone to typing
-          errors. Both hooks provides a way to access the types via a third
-          value while destructuring the hook{" "}
-          <code>[state, dispatch, types]</code>. {r}'s types get create by
-          taking the <strong>functions</strong> name pass-down via the action
-          object.
-          <br />
-          Therefor all the following declaration are valid when organizing your
-          actions.
+          errors. <br />
+        </p>
+        <p>
+          Both hooks provides a way to access their types via a third value
+          while destructuring their hooks <code>[state, dispatch, types]</code>.{" "}
+          {r}'s types get create by taking the <strong>functions</strong> name
+          pass-down via the action object.
+        </p>
+        <p>
+          Make use of the types help you as well at the moment of renaming or
+          refactoring your code since it's easier to find and replace.
         </p>
         <Snippets snippet="types" />
-
         <h2>What about async functions and {r}</h2>
         <p>
-          <strong>Async</strong> functions are not different or "special" for{" "}
-          <code>{rur}</code>, therefore neither for {r}. But here is a small
-          example about how you could write it in your code. Also worth nothing
-          that there is nothing preventing you from using
+          <em>Async</em> functions are not different or special for{" "}
+          <strong>{r}</strong>, You can keep using async functions as you were
+          doing it before with <strong>{rur}</strong>.
+        </p>
+        <p>
+          Saying that here is a small example about how to handle this scenario
+          either with <strong>{rur}</strong> or <strong>{r}</strong>. Also worth
+          nothing that there is nothing preventing you from using{" "}
           <code>{r}</code> with popular Libraries like{" "}
           <Link src="https://github.com/tannerlinsley/react-query">
             react-query
           </Link>{" "}
-          or <Link src="https://github.com/immerjs/immer">Immer</Link>
+          or <Link src="https://github.com/immerjs/immer">Immer</Link>.
         </p>
         <AsyncUseReducerish.Story />
+        <h2>Inversion of Control</h2>
+        <UseReducerishInversionOfControl />
         <h2 style={{ marginTop: "128px" }}>FAQ</h2>
         <styles.FAQList>
           <styles.FAQItem>
@@ -140,7 +142,7 @@ export default function App() {
             <styles.FAQQ>Is this a new state manager library?</styles.FAQQ>
             <styles.FAQA>
               No, <code>{r}</code> is just a wrapper on top of{" "}
-              <code>{rur}</code>, that's all, React is still in charge of the
+              <code>{rur}</code> that's all, React is still in charge of the
               state.
             </styles.FAQA>
           </styles.FAQItem>
@@ -149,8 +151,8 @@ export default function App() {
               Do this wrapper is a replacement for REDUX?
             </styles.FAQQ>
             <styles.FAQA>
-              No, This is just a small package catering small and medium
-              component where <code>{rur}</code> plays better than regular{" "}
+              No, This is just a small package catering to small and medium
+              components where <code>{rur}</code> plays better than regular{" "}
               <code>{rus}</code>; Remember is just <code>{rur}</code> with some
               sparkles on top of it ✨. <br />
               <strong>Redux</strong> instead is a battle tested library with a
@@ -159,10 +161,10 @@ export default function App() {
           </styles.FAQItem>
           <styles.FAQItem>
             <styles.FAQQ>
-              When should I picked <code>{r}</code> instead {rus}?
+              When should I picked {rur} (Seducer) instead {rus}?
             </styles.FAQQ>
             <styles.FAQA>
-              The React's documentation put it literally like this:
+              The React's documentation put it like this:
             </styles.FAQA>
             <blockquote>
               useReducer is usually preferable to useState when you have complex
@@ -201,51 +203,43 @@ export default function App() {
               Where can I read more about useReducer, Context and related
               topics?
             </styles.FAQQ>
-            <styles.FAQA>
-              These are some interesting sources:
+            <styles.FAQA as="div">
+              <p>These are some interesting sources:</p>
               <ul>
                 <li>
-                  <p>
-                    These three posts{" "}
-                    <Link src="https://kentcdodds.com/blog/how-to-use-react-context-effectively">
-                      How to use React Context effectively
-                    </Link>{" "}
-                    /{" "}
-                    <Link src="https://kentcdodds.com/blog/the-state-reducer-pattern-with-react-hooks">
-                      The State Reducer Pattern with React Hooks
-                    </Link>{" "}
-                    <Link src="https://kentcdodds.com/blog/how-to-implement-usestate-with-usereducer">
-                      How to implement useState with useReducer
-                    </Link>
-                    - By Kent C. Dodds
-                  </p>
+                  These three posts{" "}
+                  <Link src="https://kentcdodds.com/blog/how-to-use-react-context-effectively">
+                    How to use React Context effectively
+                  </Link>{" "}
+                  /{" "}
+                  <Link src="https://kentcdodds.com/blog/the-state-reducer-pattern-with-react-hooks">
+                    The State Reducer Pattern with React Hooks
+                  </Link>{" "}
+                  <Link src="https://kentcdodds.com/blog/how-to-implement-usestate-with-usereducer">
+                    How to implement useState with useReducer
+                  </Link>
+                  - By Kent C. Dodds
                 </li>
                 <li>
-                  <p>
-                    <Link src="https://reactjs.org/blog/2019/02/06/react-v16.8.0.html#react-1">
-                      The one with hooks
-                    </Link>
-                  </p>
+                  <Link src="https://reactjs.org/blog/2019/02/06/react-v16.8.0.html#react-1">
+                    The one with hooks
+                  </Link>
                 </li>
                 <li>
-                  <p>
-                    The documentation 😅{" "}
-                    <Link src="https://reactjs.org/docs/hooks-reference.html#usereducer">
-                      useReducer
-                    </Link>
-                  </p>
+                  The documentation 😅{" "}
+                  <Link src="https://reactjs.org/docs/hooks-reference.html#usereducer">
+                    useReducer
+                  </Link>
                 </li>
                 <li>
-                  <p>
-                    Inversion of Control:
-                    <Link src="https://en.wikipedia.org/wiki/Inversion_of_control">
-                      Inversion of control - Wikipedia
-                    </Link>{" "}
-                    and{" "}
-                    <Link src="https://kentcdodds.com/blog/inversion-of-control">
-                      Inversion of control - Kent C. Dodds.
-                    </Link>
-                  </p>
+                  Inversion of Control:
+                  <Link src="https://en.wikipedia.org/wiki/Inversion_of_control">
+                    Inversion of control - Wikipedia
+                  </Link>{" "}
+                  and{" "}
+                  <Link src="https://kentcdodds.com/blog/inversion-of-control">
+                    Inversion of control - Kent C. Dodds.
+                  </Link>
                 </li>
                 <li>
                   Some information about useReducer, dispatch and context
@@ -254,14 +248,12 @@ export default function App() {
                   </Link>
                 </li>
                 <li>
-                  <p>
-                    Stackoverflow answer Redux vs useReducer{" "}
-                    <Link src="https://stackoverflow.com/questions/54576865/when-to-use-native-react-usereducer-hook-and-how-it-differentiate-from-redux">
-                      When to use native React.useReducer Hook and how it
-                      differentiate from Redux
-                    </Link>{" "}
-                    - Some answer are not entirely correct.
-                  </p>
+                  Stackoverflow answer Redux vs useReducer{" "}
+                  <Link src="https://stackoverflow.com/questions/54576865/when-to-use-native-react-usereducer-hook-and-how-it-differentiate-from-redux">
+                    When to use native React.useReducer Hook and how it
+                    differentiate from Redux
+                  </Link>{" "}
+                  - Some answer are not entirely correct.
                 </li>
                 <li>
                   Dan Abramov recipe for avoiding re-renders with context.
@@ -271,13 +263,11 @@ export default function App() {
                   </Link>
                 </li>
                 <li>
-                  <p>
-                    <Link src="https://redux-toolkit.js.org/tutorials/basic-tutorial">
-                      {" "}
-                      Redux basic tutorial
-                    </Link>{" "}
-                    an example about how to use it. If you are interested.
-                  </p>
+                  <Link src="https://redux-toolkit.js.org/tutorials/basic-tutorial">
+                    {" "}
+                    Redux basic tutorial
+                  </Link>{" "}
+                  an example about how to use it. If you are interested.
                 </li>
               </ul>
             </styles.FAQA>
@@ -316,7 +306,7 @@ p code {
 }
 
 p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.4;
 }
 
@@ -328,6 +318,11 @@ blockquote {
   font-style:italic;
   font-size: 1rem;
   line-height: 1.7;
+}
+
+li {
+  padding: 0.5rem;
+  font-size: 1.2rem;
 }
 `;
 
@@ -350,7 +345,6 @@ const styles = {
   }),
   FAQItem: styled.li(() => {
     return css`
-      padding: 1.2rem 0;
       border-bottom: 1px dashed #eee;
     `;
   }),
