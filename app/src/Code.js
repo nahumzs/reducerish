@@ -5,11 +5,11 @@ import prism from "react-syntax-highlighter/dist/esm/styles/prism/prism";
 
 SyntaxHighlighter.registerLanguage("jsx", jsx);
 
-export default function Code({ code }) {
+export default function Code({ code, children }) {
   return (
     <styles.Container>
       <SyntaxHighlighter language="jsx" style={prism}>
-        {code}
+        {code || children}
       </SyntaxHighlighter>
     </styles.Container>
   );

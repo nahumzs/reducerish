@@ -71,6 +71,35 @@ export default function App() {
           <strong>{usw}</strong>:
         </p>
         <UseReducerishWithContext.Story />
+        <p>
+          As you can see <code>{us}</code> and <code>{usw}</code> are easy to
+          use and give you a lot of flexibility in helping you to manage your
+          state. All these with the benefit of using <code>{rur}</code>and
+          without worrying of setting up <strong>switch statements</strong>,{" "}
+          <strong>declaring reducer function</strong> or worrying about{" "}
+          <strong>how to organize your code</strong>, you don't even have to
+          understand the reducer pattern at all, this has been abstracted for
+          you.
+        </p>
+        <p>
+          IMO just by abstracting <code>{rur}</code> and let you focusing only
+          in actions, <code>{s}</code> has already accomplish its value
+          proposition in improving the <code>{rur}</code> experience.
+        </p>
+        <p>
+          But {s} provides a little more advances features for more complex
+          scenarios, catering small and medium reusable features or complex
+          components, also helps you in using the concept of "inversion of
+          control" with a more friendly approach, so if you are interested in
+          learning more about that. <br />
+          <br />
+          Please keep reading.
+        </p>
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
         <h2>Reusability</h2>
         <p>
           Reusing components and features within the React ecosystem is a
@@ -79,11 +108,13 @@ export default function App() {
         </p>
         <p>
           <code>{s}</code> in specific use the state reduce pattern, this
-          patterns is best suitable for complex component or small features.
+          patterns is best suitable for small and medium reusable features or
+          complex components.
         </p>
         <p>
           <strong>
-            The recipe for <code>{us}</code> is the following:
+            The recipe for reusable component using <code>{us}</code> goes like
+            this:
           </strong>
         </p>
         <p>
@@ -108,6 +139,11 @@ export function useYourComponent() {
         `}
         />
         <p>2. Create your reusable component:</p>
+        <p>
+          Pay attention how we are passing down a store which will let us to
+          reuse the same hook that our consumer, but if the consumer doesn't
+          pass anything we are initializing it with a default store.
+        </p>
         <Code
           code={`import { useSeducer } from "@paprika/seducer";
 
@@ -124,7 +160,7 @@ export function useYourComponent() {
   return store;
 }
 
-export default YourReusableComponent({ store: storeProps, ...moreProps }) {
+export default function YourReusableComponent({ store: storeProps, ...moreProps }) {
   const storeDefault = useYourComponent();
   const [state, dispatch, types] = storeProps || storeDefault;
 
@@ -142,7 +178,7 @@ export default YourReusableComponent({ store: storeProps, ...moreProps }) {
         <Code
           code={`import YourReusableComponent from "./YourReusableComponent";
 
-export default App() {
+export default function App() {
   // this should work without passing a store because it will create one 
   // by default, this is similar to what it's known as a uncontrolled component
   return <YourReusableComponent />
@@ -153,7 +189,7 @@ export default App() {
         <Code
           code={`import YourReusableComponent, { useYourComponent } from "./YourReusableComponent";
 
-export default App() {
+export default function App() {
   const store = useYourComponent();
   const [state, dispatch, types] = store;
   
@@ -168,9 +204,10 @@ export default App() {
   )
 }`}
         />
+        <p>That's it you created a control and uncontrolled component.</p>
         <p>
           <strong>
-            The recipe for <code>{usw}</code> is the following:
+            The recipe for <code>{usw}</code> goes like this:
           </strong>
         </p>
         <p>
@@ -183,28 +220,69 @@ export default App() {
 export const actions = { ... };
 export const initialState = { ... };
 
-// unlike useSeducer you don't need to expose a default store because that is a Providers' responsibility.
+/**  unlike useSeducer you don't need to wrap your seducer hook to initialize it. */
+/**  for that you will use a <Provider />, for this reason you will need to export the actions and the initalState */
+/**  which you will use later to feed it into the Provider */
 `}
         />
-        <ReusabilityWithContext />
         <p>
-          Normally you would want to make your component controlled and
-          uncontrolled at same time. With <code>{rur}</code> and
-          <code>hooks</code> this can be done by exposing via an hook the state
-          and the dispatch function from your component, so the consumer can
-          fire actions and adjust the behaviour of your component:
+          2. We repeat the step for creating our reusable component, keep in
+          mind that unlike <code>{us}</code>
+          where we injected the store, for <code>{usw}</code> is only required
+          to call <code>useSeducerWithContext()</code>.
+        </p>
+        <Code>{`import { useSeducerWithContext } from "@paprika/seducer";
+export const actions = { ... };
+export const initialState = { ... };
+
+export default function YourReusableComponent() {
+  const [state, dispatch, types] = useSeducerWithContext();
+
+  return (
+    <>
+      <span>{state.counter}</span>
+      <button onClick={() => dispatch(types.up)}>+</button>
+      <button onClick={() => dispatch(types.down)}>-</button>
+    </>
+  )
+}
+`}</Code>
+        <p>
+          3. Now we need to wrap our Reusable component within a Provider and
+          use it.
+        </p>
+        <Code>{`import { Provider } from "@paprika/seducer";
+import YourReusableComponent { actions, initialState } from "./YourReusableComponent" 
+
+function App() {
+  // now you have access to the component and can control it. 
+  const [state, dispatch, types] = useSeducerWithContext();
+  return <YourReusableComponent />
+}
+
+function Root() {
+  return (
+    <Provider initialState={initialState} actions={actions}>
+      <App />
+    </Provider>
+  )
+}
+
+`}</Code>
+
+        <p>
+          Because real application never look like Counters, here you can see a
+          small feature that let you select and unselect characters, implemented
+          with <code>{us}</code> and <code>{usw}</code>
         </p>
         <p>
-          Take a look to the of the following simple component name{" "}
-          <code>{`<CharactersList />`}</code> that can swap characters between
-          two lists:
+          Using <strong>{us}</strong>
         </p>
-        <Reusability />
+        <Reusability.Story />
         <p>
-          Now let's make use of the <code>useCharacterList</code> hook to
-          controlled the component
+          Using <strong>{usw}</strong>
         </p>
-        <ReusabilityControlled />
+        <ReusabilityWithContext.Story />
         <h2>Inversion of Control</h2>
         <UseReducerishInversionOfControl />
         <h2>DEV-UX</h2>

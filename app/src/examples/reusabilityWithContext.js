@@ -183,27 +183,164 @@ export default function Root() {
   );
 }
 
-CharactersList.Story = () => {
-  const code = `import { useSeducer } from "seducer";
+Root.Story = () => {
+  const code = `import { useSeducerWithContext } from "@paprika/seducer";
+  
+export const actions = {
+  selected(state, payload) {
+    ...
+  },
+  characters(state, payload) {
+    ...
+  },
+  toggle(state, payload) {
+    ...
+  },
 
-export default function App() {
-  function up(state) {
-    return state + 1;
-  }
+  addCharacter(state, payload) {
+    ...
+  },
+};
 
-  function down(state) {
-    return state - 1;
-  }
+export const initialState = {
+  selected: new Set([]),
+  characters: new Set([]),
+};
 
-  const [state, dispatch] = useSeducer({ up, down }, 0);
+export function CharactersList({
+  initialSelected = null,
+  initialCharacters = null,
+}) {
+  const refInput = useRef(null);
+  const [state, dispatch, types] = useSeducerWithContext();
+
+  const handleToggle = (value) => () => {
+    dispatch(types.toggle, value);
+  };
+
+  useEffect(() => {
+    // this doesn't need to be here, you could create a hook 
+    // and this all in there since useSeducerWithContext() is available 
+    // everywhere a far is wrapped inside the <Provider />
+
+    dispatch(
+      types.characters,
+      initialCharacters || new Set(["Bart", "List", "Milhouse"])
+    );
+    dispatch(
+      types.selected,
+      initialSelected || new Set(["Moe", "Homer", "Marge"])
+    );
+  }, []); // eslint-disable-line
+
   return (
     <>
-      <button onClick={() => dispatch("up")}>+</button>
-      <button onClick={() => dispatch("down")}>-</button>
-      {state}
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          const value = refInput.current.value;
+          if (Boolean(value)) {
+            dispatch(types.addCharacter, refInput.current.value);
+            refInput.current.value = "";
+          }
+        }}
+      >
+        <label htmlFor="new-character">Add character:</label>
+        <Input id="new-character" ref={refInput} />
+      </form>
+      <strong>Selected:</strong>
+      <ul>
+        {Array.from(state.selected).map((character) => (
+          <li key={character}>
+            {character}
+            <Button
+              size={Button.types.size.SMALL}
+              onClick={handleToggle(character)}
+            >
+              remove
+            </Button>
+          </li>
+        ))}
+      </ul>
+      <strong>Characters:</strong>
+      <ul>
+        {Array.from(state.characters).map((character) => (
+          <li key={character}>
+            {character}
+            <Button
+              size={Button.types.size.SMALL}
+              onClick={handleToggle(character)}
+            >
+              select
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </>              
+  );
+}
+
+
+/**
+ * import { useSeducerWithContext } from "@paprika/seducer";
+ **/
+
+function App() {
+  const [state, dispatch, types] = useSeducerWithContext();
+  const [isButtonDisabled, setIsButtonDisable] = useState(false);
+  
+  const initialSelected = new Set(["hulk", "wonder woman"]);
+  const initialCharacters = new Set(["iron-man", "venom"]);
+
+  return (
+    <>
+      <ButtonGroup>
+        <Button
+          isDisabled={isButtonDisabled}
+          onClick={() => {
+            dispatch(
+              types.characters,
+              new Set([
+                ...state.characters,
+                ...new Set(["Black Panther", "Wolf", "The Blob"]),
+              ])
+            );
+            setIsButtonDisable(true);
+          }}
+        >
+          Add 3 character in one
+        </Button>
+        <Button
+          onClick={() => {
+            dispatch(types.selected, initialSelected);
+            dispatch(types.characters, initialCharacters);
+            setIsButtonDisable(false);
+          }}
+        >
+          reset
+        </Button>
+      </ButtonGroup>
+      <CharactersList
+        initialSelected={initialSelected}
+        initialCharacters={initialCharacters}
+      />
     </>
   );
 }
+
+/**
+ * import { Provider } from "@paprika/seducer";
+ * import { initialState, actions } from "./YourReusableComponent";
+ **/
+
+export default function Root() {
+  // unlike useSeducer you need to provide a Provider in order to use useSeducerWithContext
+  return (
+    <Provider initialState={initialState} actions={actions}>
+      <App />
+    </Provider>
+  );
+}
   `;
-  return <Story render={<CharactersList />} code={code} />;
+  return <Story render={<Root />} code={code} />;
 };

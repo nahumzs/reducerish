@@ -30,6 +30,8 @@ const styles = {
   }),
   Code: styled.div(() => {
     return css`
+      max-height: 900px;
+      overflow: scroll;
       width: 60%;
       flex-shrink: 0;
     `;
