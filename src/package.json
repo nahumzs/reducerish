@@ -8,7 +8,7 @@
     "dev": "rimraf ../app/src/lib && tsc -p tsconfig.dev.json",
     "production": "rimraf ./lib && tsc -p  tsconfig.production.json && yarn copy:files",
     "watch": "tsc -p tsconfig.dev.json -w",
-    "copy:files": "copyfiles README.md package.json ./lib && echo 'Files copied'",
+    "copy:files": "copyfiles README.md CHANGELOG.md package.json ./lib && echo 'Files copied'",
     "postbuild": "yarn copy:files"
   },
   "repository": {
