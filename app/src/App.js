@@ -2,13 +2,17 @@ import UseReducerish from "./examples/useSeducer";
 import UseReducerishWithContext from "./examples/useSeducerWithContext";
 import AsyncUseReducerish from "./examples/asyncUseSeducer";
 import UseReducerishInversionOfControl from "./examples/useSeducerInversionOfControl";
+import Reusability, {
+  Controlled as ReusabilityControlled,
+} from "./examples/reusability";
 import styled, { css, createGlobalStyle } from "styled-components";
+
 import Snippets from "./examples/Snippets";
 import Link from "./Link";
 
-const r = "Seducer";
-const ur = "useSeducer";
-const urw = "useSeducerWithContext";
+const s = "Seducer";
+const us = "useSeducer";
+const usw = "useSeducerWithContext";
 const rur = "React.useReducer";
 const rus = "React.useState";
 const rc = "React.createContext";
@@ -18,7 +22,7 @@ export default function App() {
     <>
       <Global />
       <styles.Content>
-        <h1>{r}</h1>
+        <h1>{s}</h1>
         <p>
           <code>{rur}</code> is an awesome hook but more often than not it is
           overshadow by its relative <code>{rus}</code> which is easier and
@@ -45,29 +49,29 @@ export default function App() {
           </li>
         </ul>
         <p>
-          To mitigate some of these reasons, I created <code>{r}</code> (simple
+          To mitigate some of these reasons, I created <code>{s}</code> (simple
           reducer) which is a simple wrapper on top of <code>{rur}</code>,
           making it easier to use and with a more friendly approach.
         </p>
         <p>
-          <code>{r}</code> provides two hooks that you can consume{" "}
-          <code>{ur}</code> and <code>{urw}</code>.
+          <code>{s}</code> provides two hooks that you can consume{" "}
+          <code>{us}</code> and <code>{usw}</code>.
         </p>
         <p>
           Ok, showtime, these are a basic example for
-          <code>{ur}</code> and a more elaborated one for <code>{urw}</code>.
+          <code>{us}</code> and a more elaborated one for <code>{usw}</code>.
         </p>
         <p>
-          <strong>{ur}</strong>:
+          <strong>{us}</strong>:
         </p>
         <UseReducerish.Story />
         <p>
-          <strong>{urw}</strong>:
+          <strong>{usw}</strong>:
         </p>
         <UseReducerishWithContext.Story />
         <h2>DEV-UX</h2>
         <p>
-          Using <code>{r}</code> comes with some perks from the developer
+          Using <code>{s}</code> comes with some perks from the developer
           experience side of things. As example includes a Logger, types,
           allowed you to customize the displayName of the reducer and finally
           also allow you to make use of "inversion of control" with minimal
@@ -75,7 +79,7 @@ export default function App() {
         </p>
         <h3>hasLogger</h3>
         <p>
-          When enable on <code>{ur}</code> or <code>{urw}</code> will print on
+          When enable on <code>{us}</code> or <code>{usw}</code> will print on
           the <em>dev console</em> their previous and next state each time an
           actions is executed, providing the consumer with a nicer picture of
           what it's happening with their state.
@@ -93,7 +97,7 @@ export default function App() {
         <p>
           Both hooks provides a way to access their types via a third value
           while destructuring their hooks <code>[state, dispatch, types]</code>.{" "}
-          {r}'s types get create by taking the <strong>functions</strong> name
+          {s}'s types get create by taking the <strong>functions</strong> name
           pass-down via the action object.
         </p>
         <p>
@@ -101,23 +105,48 @@ export default function App() {
           refactoring your code since it's easier to find and replace.
         </p>
         <Snippets snippet="types" />
-        <h2>What about async functions and {r}</h2>
+        <h2>What about async functions and {s}</h2>
         <p>
           <em>Async</em> functions are not different or special for{" "}
-          <strong>{r}</strong>, You can keep using async functions as you were
+          <strong>{s}</strong>, You can keep using async functions as you were
           doing it before with <strong>{rur}</strong>.
         </p>
         <p>
           Saying that here is a small example about how to handle this scenario
-          either with <strong>{rur}</strong> or <strong>{r}</strong>. Also worth
+          either with <strong>{rur}</strong> or <strong>{s}</strong>. Also worth
           nothing that there is nothing preventing you from using{" "}
-          <code>{r}</code> with popular Libraries like{" "}
+          <code>{s}</code> with popular Libraries like{" "}
           <Link src="https://github.com/tannerlinsley/react-query">
             react-query
           </Link>{" "}
           or <Link src="https://github.com/immerjs/immer">Immer</Link>.
         </p>
         <AsyncUseReducerish.Story />
+        <h2>Reusability</h2>
+        <p>
+          Reusing components and features within the React ecosystem is a
+          complex topic, there are many patterns and ways to make your
+          components reusable. But When using <code>{s}</code> you can make use
+          of specific pattern to facilitate this.
+        </p>
+        <p>
+          Normally you would want to make your component controlled and
+          uncontrolled at same time. With <code>{rur}</code> and
+          <code>hooks</code> this can be done by exposing via an hook the state
+          and the dispatch function from your component, so the consumer can
+          fire actions and adjust the behaviour of your component:
+        </p>
+        <p>
+          Take a look to the of the following simple component name{" "}
+          <code>{`<CharactersList />`}</code> that can swap characters between
+          two lists:
+        </p>
+        <Reusability />
+        <p>
+          Now let's make use of the <code>useCharacterList</code> hook to
+          controlled the component
+        </p>
+        <ReusabilityControlled />
         <h2>Inversion of Control</h2>
         <UseReducerishInversionOfControl />
         <h2 style={{ marginTop: "128px" }}>FAQ</h2>
@@ -132,7 +161,7 @@ export default function App() {
               power of reducers without introducing a peer-dependency in your
               library, is quite nice and also mitigate some of the hassles for
               your consumers when consuming your Components 😸. And lastly and
-              more important in advances cases is that {r} provides a way to
+              more important in advances cases is that {s} provides a way to
               implemented <strong>Inversion of control</strong> in a simple way,
               without forcing you to export a reducer, neither to learn
               convolute approaches. <strong>wip ("example to be added")</strong>
@@ -141,7 +170,7 @@ export default function App() {
           <styles.FAQItem>
             <styles.FAQQ>Is this a new state manager library?</styles.FAQQ>
             <styles.FAQA>
-              No, <code>{r}</code> is just a wrapper on top of{" "}
+              No, <code>{s}</code> is just a wrapper on top of{" "}
               <code>{rur}</code> that's all, React is still in charge of the
               state.
             </styles.FAQA>

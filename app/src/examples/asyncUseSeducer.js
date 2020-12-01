@@ -89,7 +89,7 @@ export default function App() {
 }
 
 App.Story = () => {
-  const code = `import { useSeducer } from "reducerish";
+  const code = `import { useSeducer } from "seducer";
 
 // in your code, you could move these actions into their own file.
 const actions = {

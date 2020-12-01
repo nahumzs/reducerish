@@ -46,10 +46,14 @@ export const useSeducer = (
    * to
    * dispatch(types.type, value) which IMO is more versatile, shorter and pleasant to look at it.
    */
-  function dispatchCallback(...args) {
-    const [type, payload] = args;
-    dispatch({ type, payload });
-  }
+  const memoCustomDispatch = React.useMemo(
+    () =>
+      function dispatchCallback(...args) {
+        const [type, payload] = args;
+        dispatch({ type, payload });
+      },
+    []
+  );
 
-  return [state, dispatchCallback, types] as reducerish;
+  return [state, memoCustomDispatch, types] as reducerish;
 };

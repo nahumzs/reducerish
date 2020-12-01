@@ -38,17 +38,27 @@ export function Provider({
 
   setContextDisplayName(contextState, displayName);
 
-  function dispatchCallback(...args) {
-    const [type, payload] = args;
-    dispatch({
-      type,
-      payload,
-    });
-  }
+  /**
+   * This is a helper that allowed to change the regular dispatch signature which is
+   * dispatch({ type: "action", payload: value })
+   * to
+   * dispatch(types.type, value) which IMO is more versatile, shorter and pleasant to look at it.
+   */
+  const memoCustomDispatch = React.memo(
+    () =>
+      function dispatchCallback(...args) {
+        const [type, payload] = args;
+        dispatch({
+          type,
+          payload,
+        });
+      },
+    []
+  );
 
   return (
     <contextState.Provider value={state}>
-      <contextDispatch.Provider value={[dispatchCallback, types]}>
+      <contextDispatch.Provider value={[memoCustomDispatch, types]}>
         {children}
       </contextDispatch.Provider>
     </contextState.Provider>

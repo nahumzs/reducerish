@@ -8,7 +8,7 @@ const snippets = {
   0: `useSeducer(actions: {[name]:function}, initialState: unknown, lazyLoading:function, hasLogger:boolean)
 }
 `,
-  1: `import { useSeducer } from "reducerish";
+  1: `import { useSeducer } from "seducer";
 
   const actions = {
     add() {},
@@ -40,7 +40,7 @@ export function get() {},
 import * as actions from "./actions.js"
 useSeducer(actions, {...})
 `,
-  hasLogger: `import { Provider, useSeducer } from "reducerish";
+  hasLogger: `import { Provider, useSeducer } from "seducer";
 
 // when using it with useSeducer
 // signature (actions, initialState, initializer, hasLogger)

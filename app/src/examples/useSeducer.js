@@ -45,7 +45,7 @@ export default function App() {
 }
 
 App.Story = () => {
-  const code = `import { useSeducer } from "reducerish";
+  const code = `import { useSeducer } from "seducer";
 
 export default function App() {
   function up(state) {

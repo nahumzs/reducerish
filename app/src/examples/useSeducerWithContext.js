@@ -84,7 +84,7 @@ export default function App() {
 }
 
 App.Story = () => {
-  const code = `import { Provider, useSeducerWithContext } from "reducerish";
+  const code = `import { Provider, useSeducerWithContext } from "seducer";
 
 const actions = {
   add(state, payload) {
