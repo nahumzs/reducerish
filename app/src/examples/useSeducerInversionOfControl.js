@@ -127,20 +127,20 @@ function MyReusableCounter({ onUp, onDown, counter }) {
 }
 
 // App.js
+function up(state, payload, next) {
+  if ((state.sum + 1) % 10 === 0 && state.sum !== 0) {
+    return { ...next(), __hasConfetti: true };
+  }
+
+  return { ...next(), __hasConfetti: false };
+}
+
+function duplicate(state) {
+  if (state.sum === 0) return { ...state, sum: 1 };
+  return { ...state, sum: state.sum * 2 };
+}
+
 export default function App() {
-  function up(state, payload, next) {
-    if ((state.sum + 1) % 10 === 0 && state.sum !== 0) {
-      return { ...next(), __hasConfetti: true };
-    }
-
-    return { ...next(), __hasConfetti: false };
-  }
-
-  function duplicate(state) {
-    if (state.sum === 0) return { ...state, sum: 1 };
-    return { ...state, sum: state.sum * 2 };
-  }
-
   const interceptors = { up, duplicate };
   const [state, dispatch, types] = useMyReusableCounter(interceptors);
 

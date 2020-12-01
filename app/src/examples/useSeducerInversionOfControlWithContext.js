@@ -97,8 +97,7 @@ export default function Root() {
 
 Root.Story = () => {
   const code = `// YourReusableComponent.js
-
-export const actions = {
+  export const actions = {
   up(state) {
     return { ...state, sum: state.sum + 1 };
   },
@@ -111,17 +110,20 @@ export const initialState = {
   sum: 0,
 };
 
-function YourReusableComponent({ onUp, onDown, counter }) {
+function YourReusableComponent() {
+  const [state, dispatch, types] = useSeducerWithContext();
+
   return (
     <>
-      <Button onClick={onUp}>+</Button>
-      <Button onClick={onDown}>-</Button>
-      {counter}
+      <Button onClick={() => dispatch(types.up)}>+</Button>
+      <Button onClick={() => dispatch(types.down)}>-</Button>     
+      {state.sum}
     </>
   );
 }
 
 // App.js
+import YourReusableComponent, { actions, initialState } from "./YourReusableComponent";
 
 const interceptors = {
   up(state, payload, next) {
@@ -144,12 +146,10 @@ function App() {
     <>
       <Confetti active={state.__hasConfetti} />
       {state.__hasConfetti ? "Wait for the confetti 🎉!" : null}
-      <YourReusableComponent
-        onUp={() => dispatch(types.up)}
-        onDown={() => dispatch(types.down)}
-        counter={state.sum}
-      />
-      <Button onClick={() => dispatch(types.duplicate)}>duplicate</Button>
+      <YourReusableComponent />
+      <Button onClick={() => dispatch(types.duplicate)}>
+        duplicate
+      </Button>
     </>
   );
 }
@@ -159,8 +159,9 @@ export default function Root() {
     <Provider
       actions={actions}
       initialState={initialState}
+      {/* this is where the magic happens */}
       interceptors={interceptors}
-      hasLogger    
+      hasLogger
     >
       <App />
     </Provider>
