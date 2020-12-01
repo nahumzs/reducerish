@@ -23,7 +23,7 @@ export function Provider({
     throw new Error("the initializer prop must be a function");
 
   const reducerMemo = React.useMemo(() => {
-    return reducer(actions || {}, hasLogger);
+    return reducer(actions || {}, hasLogger, interceptors);
   }, [actions, hasLogger]);
 
   const [state, dispatch] = React.useReducer(

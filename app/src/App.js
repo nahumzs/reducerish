@@ -2,6 +2,7 @@ import UseReducerish from "./examples/useSeducer";
 import UseReducerishWithContext from "./examples/useSeducerWithContext";
 import AsyncUseReducerish from "./examples/asyncUseSeducer";
 import UseReducerishInversionOfControl from "./examples/useSeducerInversionOfControl";
+import UseSeducerInversionOfControlWithContext from "./examples/useSeducerInversionOfControlWithContext";
 import Reusability, {
   Controlled as ReusabilityControlled,
 } from "./examples/reusability";
@@ -100,7 +101,7 @@ export default function App() {
         <hr />
         <br />
         <br />
-        <h2>Reusability</h2>
+        <h2>Reusability - Advance</h2>
         <p>
           Reusing components and features within the React ecosystem is a
           complex topic, there are many patterns and ways to make your
@@ -269,7 +270,6 @@ function Root() {
 }
 
 `}</Code>
-
         <p>
           Because real application never look like Counters, here you can see a
           small feature that let you select and unselect characters, implemented
@@ -283,8 +283,107 @@ function Root() {
           Using <strong>{usw}</strong>
         </p>
         <ReusabilityWithContext.Story />
-        <h2>Inversion of Control</h2>
-        <UseReducerishInversionOfControl />
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
+        <h2>Inversion of Control - Advance</h2>
+        <blockquote>
+          Don't call us, we'll call you
+          <footer>-- Hollywood Principle</footer>
+        </blockquote>
+        <p>
+          Inversion of Control sounds really fancy, but there is high chances of
+          you using it daily. The functions you pass-down whenever using
+          Array.Filter, Array.Map or Array.Sort, all that is{" "}
+          <strong>Inversion of Control</strong>.
+          <Link src="https://kentcdodds.com/blog/inversion-of-control">
+            You can read a way better explanation from Kent C. Dodds, if you are
+            interested into understanding it better.
+          </Link>
+        </p>
+        <p>
+          I will show you how to do <strong>Inversion of Control</strong> using{" "}
+          <code>{us}</code> and <code>{usw}</code>
+        </p>
+        <p>
+          Normally to achieve IOC with the State Reduce Pattern you would need
+          to export the internal reducer of your reusable component, and then
+          make your consumer to provide their own Reducer, this way the consumer
+          could "hook" into the <code>{rur}</code> and received any dispatched
+          action.
+        </p>
+        <p>
+          This patterns is really powerful, but little cumbersome IMO,{" "}
+          <strong>{us}</strong> and{" "}
+          <strong>{usw} provide a more friendly approach</strong> via what I
+          named <strong>interceptors</strong>
+        </p>
+        <p>
+          <strong>interceptors</strong> are regular functions that can mixed
+          with the regular actions and extended the current ones or override
+          them in a simple way.
+        </p>
+        <p>
+          Take as example the following simple component using <code>{us}</code>
+          :
+        </p>
+        <UseReducerishInversionOfControl.Story />
+        <p>The two important parts are these:</p>
+        <p>
+          The first one is to let your hook to accept the interceptors and pass
+          it to <code>{us}</code>
+        </p>
+        <Code>{`function useMyReusableCounter(interceptors = {}) {
+  const [state, dispatch, types] = useSeducer(
+    { up, down },
+    { sum: 0 },
+    null,
+    false,
+    // With this useSeducer will known that our intention is to extend the behaviour.
+    interceptors
+  );
+
+  return [state, dispatch, types, interceptors];
+}`}</Code>
+        <p>
+          and the second is when you override the behaviour and even extend the
+          internal state:
+        </p>
+        <Code>{`/* Pay close attention on the third argument for the "up" action
+/* in case you override an existence action, automatically you are going to received a function 
+/* that you can run it and get what would be the regular next state. 
+/* You can make use it as escape of your custom action. 
+**/
+
+function up(state, payload, next) {
+  if ((state.sum + 1) % 10 === 0 && state.sum !== 0) {
+    return { ...next(), __hasConfetti: true };
+  }
+
+  /** while I don't recommend messing with the original state, 
+  /* it's possible to add your own values since you are
+  /* hook directly into the store 
+  */
+  return { ...next(), __hasConfetti: false };
+}
+
+/**
+ * "duplicate" is an action that doesn't exists in the current reducer but you can extend it.
+ */
+function duplicate(state) {
+  if (state.sum === 0) return { ...state, sum: 1 };
+  return { ...state, sum: state.sum * 2 };
+}
+
+// pass-down the new actions which will be turn into interceptors. 
+const [state, dispatch, types] = useMyReusableCounter({ up, duplicate });
+`}</Code>
+        <p>
+          The following is the same component but using <code>{usw}:</code>
+        </p>
+        <UseSeducerInversionOfControlWithContext.Story />
         <h2>DEV-UX</h2>
         <p>
           Using <code>{s}</code> comes with some perks from the developer
@@ -341,9 +440,9 @@ function Root() {
         <h2 style={{ marginTop: "128px" }}>FAQ</h2>
         <styles.FAQList>
           <styles.FAQItem>
-            <styles.FAQQ>Why did I coded this?</styles.FAQQ>
+            <styles.FAQQ>Why was this library created it?</styles.FAQQ>
             <styles.FAQA>
-              As I described in the beginning of the page one of the main reason
+              As described in the beginning of the page one of the main reason
               was to make <code>{rur}</code> more approachable to any developer
               independently from their expertise level. <br />
               But also, I did it because I'm a library author and having the
@@ -353,7 +452,7 @@ function Root() {
               more important in advances cases is that {s} provides a way to
               implemented <strong>Inversion of control</strong> in a simple way,
               without forcing you to export a reducer, neither to learn
-              convolute approaches. <strong>wip ("example to be added")</strong>
+              convolute approaches.
             </styles.FAQA>
           </styles.FAQItem>
           <styles.FAQItem>
