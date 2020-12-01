@@ -1,12 +1,12 @@
 {
-  "name": "seducer",
-  "version": "1.0.0",
-  "description": "Seducer (simple reducer) is a wrap on top of React.useReducer which make it easier to use",
+  "name": "@paprika/seducer",
+  "version": "1.0.1",
+  "description": "Seducer (simple reducer) is a wrap on top of React.useReducer which make it easier to use it",
   "main": "index.js",
   "scripts": {
     "build": "yarn dev && yarn production",
     "dev": "rimraf ../app/src/lib && tsc -p tsconfig.dev.json",
-    "production": "rimraf ../lib && tsc -p  tsconfig.production.json",
+    "production": "rimraf ./lib && tsc -p  tsconfig.production.json && yarn copy:files",
     "watch": "tsc -p tsconfig.dev.json -w",
     "copy:files": "copyfiles README.md package.json ./lib && echo 'Files copied'",
     "postbuild": "yarn copy:files"
