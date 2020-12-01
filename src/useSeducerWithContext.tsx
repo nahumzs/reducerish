@@ -44,7 +44,7 @@ export function Provider({
    * to
    * dispatch(types.type, value) which IMO is more versatile, shorter and pleasant to look at it.
    */
-  const memoCustomDispatch = React.memo(
+  const memoCustomDispatch = React.useMemo(
     () =>
       function dispatchCallback(...args) {
         const [type, payload] = args;

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import Button from "@paprika/button";
 import Input from "@paprika/input";
 import styled from "styled-components";
-import { useSeducer } from "../lib";
+import { useSeducerWithContext, Provider } from "../lib";
 import Story from "../Story";
 
 const ButtonGroup = styled.div`
@@ -57,25 +57,12 @@ const initialState = {
   characters: new Set([]),
 };
 
-export function useCharacterList() {
-  const [state, dispatch, types] = useSeducer(
-    actions,
-    initialState,
-    null,
-    true
-  );
-
-  return [state, dispatch, types];
-}
-
-export default function CharactersList({
+export function CharactersList({
   initialSelected = null,
   initialCharacters = null,
-  store: storeProps,
 }) {
   const refInput = useRef(null);
-  const storeDefault = useCharacterList();
-  const [state, dispatch, types] = storeProps || storeDefault;
+  const [state, dispatch, types] = useSeducerWithContext();
 
   const handleToggle = (value) => () => {
     dispatch(types.toggle, value);
@@ -146,9 +133,8 @@ export default function CharactersList({
   );
 }
 
-export function Controlled() {
-  const store = useCharacterList();
-  const [state, dispatch, types] = store;
+function App() {
+  const [state, dispatch, types] = useSeducerWithContext();
   const [isButtonDisabled, setIsButtonDisable] = useState(false);
   const initialSelected = new Set(["hulk", "wonder woman"]);
   const initialCharacters = new Set(["iron-man", "venom"]);
@@ -181,11 +167,19 @@ export function Controlled() {
         </Button>
       </ButtonGroup>
       <CharactersList
-        store={store}
         initialSelected={initialSelected}
         initialCharacters={initialCharacters}
       />
     </>
+  );
+}
+
+export default function Root() {
+  // unlike useSeducer you need to provide a Provider in order to use useSeducerWithContext
+  return (
+    <Provider initialState={initialState} actions={actions}>
+      <App />
+    </Provider>
   );
 }
 

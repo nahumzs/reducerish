@@ -5,10 +5,12 @@ import UseReducerishInversionOfControl from "./examples/useSeducerInversionOfCon
 import Reusability, {
   Controlled as ReusabilityControlled,
 } from "./examples/reusability";
+import ReusabilityWithContext from "./examples/reusabilityWithContext";
 import styled, { css, createGlobalStyle } from "styled-components";
 
 import Snippets from "./examples/Snippets";
 import Link from "./Link";
+import Code from "./Code";
 
 const s = "Seducer";
 const us = "useSeducer";
@@ -69,6 +71,142 @@ export default function App() {
           <strong>{usw}</strong>:
         </p>
         <UseReducerishWithContext.Story />
+        <h2>Reusability</h2>
+        <p>
+          Reusing components and features within the React ecosystem is a
+          complex topic, there are many patterns and ways to make your
+          components reusable.
+        </p>
+        <p>
+          <code>{s}</code> in specific use the state reduce pattern, this
+          patterns is best suitable for complex component or small features.
+        </p>
+        <p>
+          <strong>
+            The recipe for <code>{us}</code> is the following:
+          </strong>
+        </p>
+        <p>
+          1. Export a hook initializing your <strong>reducer</strong> with{" "}
+          <code>{us}</code>
+        </p>
+        <Code
+          code={`import { useSeducer } from "@paprika/seducer";
+
+const actions = {
+  up(state, payload) {...};
+  down(state, payload) {...};
+  setCounter(state, payload) {...};
+}
+
+const initialState = { counter: 0, ...more}
+
+export function useYourComponent() {
+  const store = useSeducer(actions, initialState)
+  return store;
+}
+        `}
+        />
+        <p>2. Create your reusable component:</p>
+        <Code
+          code={`import { useSeducer } from "@paprika/seducer";
+
+const actions = {
+  up(state, payload) {...};
+  down(state, payload) {...};
+  setCounter(state, payload) {...};
+}
+
+const initialState = { counter: 0, ...more}
+
+export function useYourComponent() {
+  const store = useSeducer(actions, initialState)
+  return store;
+}
+
+export default YourReusableComponent({ store: storeProps, ...moreProps }) {
+  const storeDefault = useYourComponent();
+  const [state, dispatch, types] = storeProps || storeDefault;
+
+  return (
+    <>
+      <span>{state.counter}</span>
+      <button onClick={() => dispatch(types.up)}>+</button>
+      <button onClick={() => dispatch(types.down)}>-</button>
+    </>
+  )
+}
+        `}
+        />
+        <p>3. Make use of your Reusable component</p>
+        <Code
+          code={`import YourReusableComponent from "./YourReusableComponent";
+
+export default App() {
+  // this should work without passing a store because it will create one 
+  // by default, this is similar to what it's known as a uncontrolled component
+  return <YourReusableComponent />
+}
+        `}
+        />
+        <p>4. Control your Reusable component </p>
+        <Code
+          code={`import YourReusableComponent, { useYourComponent } from "./YourReusableComponent";
+
+export default App() {
+  const store = useYourComponent();
+  const [state, dispatch, types] = store;
+  
+  return (
+    <>
+      <YourReusableComponent store={store} />
+      <button onClick={()=>{
+        const next = state.counter === 0 ? 1 : 2 * state.counter;
+        dispatch(types.setCounter, next)
+      }}>duplicate</button>
+    </>
+  )
+}`}
+        />
+        <p>
+          <strong>
+            The recipe for <code>{usw}</code> is the following:
+          </strong>
+        </p>
+        <p>
+          1. Similarly to <code>{us}</code> start by defining the basic
+          structure:
+        </p>
+        <Code
+          code={`import { useSeducerWithContext } from "@paprika/seducer";
+
+export const actions = { ... };
+export const initialState = { ... };
+
+// unlike useSeducer you don't need to expose a default store because that is a Providers' responsibility.
+`}
+        />
+        <ReusabilityWithContext />
+        <p>
+          Normally you would want to make your component controlled and
+          uncontrolled at same time. With <code>{rur}</code> and
+          <code>hooks</code> this can be done by exposing via an hook the state
+          and the dispatch function from your component, so the consumer can
+          fire actions and adjust the behaviour of your component:
+        </p>
+        <p>
+          Take a look to the of the following simple component name{" "}
+          <code>{`<CharactersList />`}</code> that can swap characters between
+          two lists:
+        </p>
+        <Reusability />
+        <p>
+          Now let's make use of the <code>useCharacterList</code> hook to
+          controlled the component
+        </p>
+        <ReusabilityControlled />
+        <h2>Inversion of Control</h2>
+        <UseReducerishInversionOfControl />
         <h2>DEV-UX</h2>
         <p>
           Using <code>{s}</code> comes with some perks from the developer
@@ -122,33 +260,6 @@ export default function App() {
           or <Link src="https://github.com/immerjs/immer">Immer</Link>.
         </p>
         <AsyncUseReducerish.Story />
-        <h2>Reusability</h2>
-        <p>
-          Reusing components and features within the React ecosystem is a
-          complex topic, there are many patterns and ways to make your
-          components reusable. But When using <code>{s}</code> you can make use
-          of specific pattern to facilitate this.
-        </p>
-        <p>
-          Normally you would want to make your component controlled and
-          uncontrolled at same time. With <code>{rur}</code> and
-          <code>hooks</code> this can be done by exposing via an hook the state
-          and the dispatch function from your component, so the consumer can
-          fire actions and adjust the behaviour of your component:
-        </p>
-        <p>
-          Take a look to the of the following simple component name{" "}
-          <code>{`<CharactersList />`}</code> that can swap characters between
-          two lists:
-        </p>
-        <Reusability />
-        <p>
-          Now let's make use of the <code>useCharacterList</code> hook to
-          controlled the component
-        </p>
-        <ReusabilityControlled />
-        <h2>Inversion of Control</h2>
-        <UseReducerishInversionOfControl />
         <h2 style={{ marginTop: "128px" }}>FAQ</h2>
         <styles.FAQList>
           <styles.FAQItem>
