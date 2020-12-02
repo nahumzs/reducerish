@@ -108,7 +108,7 @@ interface actionTypeInterface {
 interface ProviderInterface {
   actions: actionTypeInterface;
   children: any;
-  displayName: string;
+  displayName?: string;
   hasLogger?: boolean;
   initialState?: unknown;
   initializer?(): any;
