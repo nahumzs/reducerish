@@ -15,7 +15,7 @@ export function Provider({
   children,
   displayName = null,
   hasLogger = false,
-  initialState,
+  initialState = {},
   initializer = undefined,
   interceptors = {},
 }: ProviderInterface) {
@@ -102,7 +102,7 @@ function setContextDisplayName(contextState, displayName) {
 }
 
 interface actionTypeInterface {
-  [key: string]: (action: string, payload: any, next?: () => {}) => unknown;
+  [key: string]: (action: any, payload: any, next?: () => {}) => unknown;
 }
 
 interface ProviderInterface {

@@ -3,7 +3,7 @@ import reducer from "./reducer";
 import getTypes from "./getTypes";
 
 interface actionTypeInterface {
-  [key: string]: (action: string, payload: any, next?: () => {}) => unknown;
+  [key: string]: (action: any, payload: any, next?: () => {}) => unknown;
 }
 
 type reducerish = [
@@ -14,7 +14,7 @@ type reducerish = [
 
 export const useSeducer = (
   actions: actionTypeInterface,
-  initialState: unknown,
+  initialState: unknown = {},
   initializer: () => unknown = undefined,
   hasLogger: boolean = false,
   interceptors = {}
