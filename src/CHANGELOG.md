@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-### Changed
+### FIX
+
+## [1.0.4] - 2020-12-01
+
+- Fix: I release the typescript version of reducerish :/. [@nahumzs](https://github.com/nahumzs).
 
 ## [1.0.3] - 2020-12-01
 
